@@ -84,7 +84,7 @@ def left(operon):
                 double.reverse()
                 with open(filename, 'w') as file:
                     # using randint to generate color -> temporary soln
-                    filename.write('<r\n<' + double[0] + random.randint(0, 13) +
+                    filename.write('<r\n<' + double[0] + random.randint(0,13) +
                         '\n<' + double[1] + random.randint(0,13) + '\n')
             else:
                 with open(filename, 'w') as file:
@@ -113,7 +113,7 @@ def right(operon):
             if len(double) != 0:
                 with open(filename, 'w') as file:
                     # using randint to generate color -> temporary soln
-                    filename.write(double[0] + random.randint(0, 13) +
+                    filename.write(double[0] + random.randint(0,13) +
                         '\n' + double[1] + random.randint(0,13) + '\nr\n')
             else:
                 with open(filename, 'w') as file:
