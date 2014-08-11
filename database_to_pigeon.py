@@ -43,7 +43,7 @@ import random
 
 def make(plasmid):
     filename = plasmid_name + '.txt'
-    
+    pigeon = open(filename, 'w')
     # iterate through operons
     for operon in plasmid:
         # check directionality
@@ -53,12 +53,12 @@ def make(plasmid):
             right(operon)
     
     # end command
-    with open(filename, 'w') as file:
-        filename.write('v\n# Arcs')
+    pigeon.write('v\n# Arcs')
+    pigeon.close()
 
 
 # for left directionality
-def left(operon):
+def left(operon, pigeon):
     # flip order of operons
     operon['components'].reverse()
     
@@ -67,54 +67,46 @@ def left(operon):
         if component[0] == 'c':
         # split multiple components into list
             double = re.split('_', component)
-            if len(double) != 0:
+            if len(double) > 1:
                 double.reverse()
-                with open(filename, 'w') as file:
-                    # using randint to generate color -> temporary soln
-                    filename.write('<t\n<' + double[0] + random.randint(0,13) +
-                        '\n<r\n<' + double[1] + random.randint(0,13) + '\n')
+                # using randint to generate color -> temporary soln
+                pigeon.write('<t\n<c' + double[0] + random.randint(0,13) +
+                    '\n<r\n<' + double[1] + random.randint(0,13) + '\n')
             else:
-                with open(filename, 'w') as file:
-                    filename.write('<t\n<' + component + random.randint(0,13) + '\n')
+                pigeon.write('<t\n<' + component + random.randint(0,13) + '\n')
         # if component is a promoter
         if component[0] == 'p':
             # split multiple components into list
             double = re.split('_', component)
-            if len(double) != 0:
+            if len(double) > 1:
                 double.reverse()
-                with open(filename, 'w') as file:
-                    # using randint to generate color -> temporary soln
-                    filename.write('<r\n<' + double[0] + random.randint(0,13) +
-                        '\n<' + double[1] + random.randint(0,13) + '\n')
+                # using randint to generate color -> temporary soln
+                pigeon.write('<r\n<p' + double[0] + random.randint(0,13) +
+                    '\n<' + double[1] + random.randint(0,13) + '\n')
             else:
-                with open(filename, 'w') as file:
-                filename.write('<r\n<' + component + random.randint(0,13) + '\n')
+                pigeon.write('<r\n<' + component + random.randint(0,13) + '\n')
 
 
 # for right directionality
-def right(operon):
+def right(operon, pigeon):
     for component in operon['components']:
         # if component is a cds
         if component[0] == 'c':
             # split multiple components into list
             double = re.split('_', component)
-            if len(double) != 0:
-                with open(filename, 'w') as file:
-                    # using randint to generate color -> temporary soln
-                    filename.write(double[0] + random.randint(0,13) +
-                        '\nr\n' + double[1] + random.randint(0,13) + '\nt\n')
+            if len(double) > 1:
+                # using randint to generate color -> temporary soln
+                pigeon.write(double[0] + random.randint(0,13) +
+                    '\nr\nc' + double[1] + random.randint(0,13) + '\nt\n')
             else:
-                with open(filename, 'w') as file:
-                    filename.write(component + random.randint(0,13) + '\nt\n')
+                pigeon.write(component + random.randint(0,13) + '\nt\n')
         # if component is a promoter
         if component[0] == 'p':
             # check for multiple components
             double = re.split('_', component)
-            if len(double) != 0:
-                with open(filename, 'w') as file:
-                    # using randint to generate color -> temporary soln
-                    filename.write(double[0] + random.randint(0,13) +
-                        '\n' + double[1] + random.randint(0,13) + '\nr\n')
+            if len(double) > 1:
+                # using randint to generate color -> temporary soln
+                pigeon.write(double[0] + random.randint(0,13) +
+                    '\np' + double[1] + random.randint(0,13) + '\nr\n')
             else:
-                with open(filename, 'w') as file:
-                    filename.write(component + random.randint(0,13) + '\nr\n')
+                pigeon.write(component + random.randint(0,13) + '\nr\n')
