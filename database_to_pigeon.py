@@ -54,7 +54,7 @@ def make(plasmid):
     
     # end command
     with open(filename, 'w') as file:
-        filename.write('# Arcs')
+        filename.write('v\n# Arcs')
 
 
 # for left directionality
@@ -72,7 +72,7 @@ def left(operon):
                 with open(filename, 'w') as file:
                     # using randint to generate color -> temporary soln
                     filename.write('<t\n<' + double[0] + random.randint(0,13) +
-                        '\n<' + double[1] + random.randint(0,13) + '\n')
+                        '\n<r\n<' + double[1] + random.randint(0,13) + '\n')
             else:
                 with open(filename, 'w') as file:
                     filename.write('<t\n<' + component + random.randint(0,13) + '\n')
@@ -102,7 +102,7 @@ def right(operon):
                 with open(filename, 'w') as file:
                     # using randint to generate color -> temporary soln
                     filename.write(double[0] + random.randint(0,13) +
-                        '\n' + double[1] + random.randint(0,13) + '\nt\n')
+                        '\nr\n' + double[1] + random.randint(0,13) + '\nt\n')
             else:
                 with open(filename, 'w') as file:
                     filename.write(component + random.randint(0,13) + '\nt\n')
