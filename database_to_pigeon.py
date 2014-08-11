@@ -48,9 +48,9 @@ def make(plasmid):
     for operon in plasmid:
         # check directionality
         if operon['directionality'] == 'L':
-            left(operon)
+            left(operon, pigeon)
         else:
-            right(operon)
+            right(operon, pigeon)
     
     # end command
     pigeon.write('v\n# Arcs')
@@ -63,50 +63,49 @@ def left(operon, pigeon):
     operon['components'].reverse()
     
     for component in operon['components']:
-    # if component is a cds
-        if component[0] == 'c':
-        # split multiple components into list
-            double = re.split('_', component)
-            if len(double) > 1:
-                double.reverse()
-                # using randint to generate color -> temporary soln
-                pigeon.write('<t\n<c' + double[0] + random.randint(0,13) +
-                    '\n<r\n<' + double[1] + random.randint(0,13) + '\n')
-            else:
-                pigeon.write('<t\n<' + component + random.randint(0,13) + '\n')
-        # if component is a promoter
-        if component[0] == 'p':
-            # split multiple components into list
-            double = re.split('_', component)
-            if len(double) > 1:
-                double.reverse()
-                # using randint to generate color -> temporary soln
-                pigeon.write('<r\n<p' + double[0] + random.randint(0,13) +
-                    '\n<' + double[1] + random.randint(0,13) + '\n')
-            else:
-                pigeon.write('<r\n<' + component + random.randint(0,13) + '\n')
-
-
-# for right directionality
-def right(operon, pigeon):
-    for component in operon['components']:
+        # using randint to generate color -> temporary soln
+        color1 = random.randint(0,13)
+        color2 = random.randint(0,13)
         # if component is a cds
         if component[0] == 'c':
             # split multiple components into list
             double = re.split('_', component)
             if len(double) > 1:
-                # using randint to generate color -> temporary soln
-                pigeon.write(double[0] + random.randint(0,13) +
-                    '\nr\nc' + double[1] + random.randint(0,13) + '\nt\n')
+                double.reverse()
+                pigeon.write('<t\n<c' + double[0] + ' %d\n<r\n<' % color1 +
+                    double[1] + ' %d\n' % color2)
             else:
-                pigeon.write(component + random.randint(0,13) + '\nt\n')
+                pigeon.write('<t\n<' + component + ' %d\n' % color1)
+        # if component is a promoter
+        if component[0] == 'p':
+            # split multiple components into list
+            double = re.split('_', component)
+            if len(double) > 1:
+                double.reverse()
+                pigeon.write('<r\n<p' + double[0] + ' %d\n<' % color1 + double[1] + ' %d\n' % color2)
+            else:
+                pigeon.write('<r\n<' + component + ' %d\n' % color1)
+
+
+# for right directionality
+def right(operon, pigeon):
+    for component in operon['components']:
+        # using randint to generate color -> temporary soln
+        color1 = random.randint(0,13)
+        color2 = random.randint(0,13)
+        # if component is a cds
+        if component[0] == 'c':
+            # split multiple components into list
+            double = re.split('_', component)
+            if len(double) > 1:
+                pigeon.write(double[0] + ' %d\nr\nc' % color1 + double[1] + ' %d\nt\n' % color2)
+            else:
+                pigeon.write(component + ' %d\nt\n' % color1)
         # if component is a promoter
         if component[0] == 'p':
             # check for multiple components
             double = re.split('_', component)
             if len(double) > 1:
-                # using randint to generate color -> temporary soln
-                pigeon.write(double[0] + random.randint(0,13) +
-                    '\np' + double[1] + random.randint(0,13) + '\nr\n')
+                pigeon.write(double[0] + ' %d\np' % color1 + double[1] + ' %d\nr\n' % color2)
             else:
-                pigeon.write(component + random.randint(0,13) + '\nr\n')
+                pigeon.write(component + ' %d\nr\n' % color1)
